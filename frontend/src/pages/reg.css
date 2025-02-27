@@ -1,0 +1,69 @@
+/* Main form container */
+form {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Input fields */
+  input,
+  select {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+    box-sizing: border-box;
+    background-color: #f1f1f1;
+  }
+  
+  /* Hover and focus for input fields */
+  input:hover,
+  select:hover,
+  input:focus,
+  select:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  /* Submit button */
+  button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    background-color: #007bff;
+    color: white;
+    font-size: 18px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Button hover effect */
+  button[type="submit"]:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Styling for error messages (optional) */
+  .alert {
+    padding: 10px;
+    margin-top: 10px;
+    background-color: #f44336; /* Red */
+    color: white;
+    border-radius: 4px;
+  }
+  
+  /* Responsive styling */
+  @media screen and (max-width: 600px) {
+    form {
+      width: 90%;
+      padding: 15px;
+    }
+  }
+  
