@@ -12,7 +12,7 @@ import {
   } from "@mui/material"
   import { useNavigate, Outlet } from "react-router-dom"
   import { Dashboard, School, People, ExitToApp } from "@mui/icons-material"
-  
+
   const drawerWidth = 240
   
   const Layout = ({ userRole }) => {

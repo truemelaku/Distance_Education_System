@@ -1,169 +1,550 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
-import axios from "axios";
-import "./reg.css";
-import Login from "./Login";
+"use client"
 
-const Registration = () => {
+import { useState, useRef } from "react"
+import Login from './Login'
+
+import {
+  Container,
+  Typography,
+  TextField,
+  Button,
+  Box,
+  Paper,
+  Avatar,
+  Link,
+  InputAdornment,
+  IconButton,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Checkbox,
+  FormControlLabel,
+  Input,
+  Grid,
+} from "@mui/material"
+import { styled } from "@mui/material/styles"
+import { Link as RouterLink, useNavigate } from "react-router-dom"
+import {
+  LockOutlined,
+  Email,
+  Visibility,
+  VisibilityOff,
+  Home,
+  Person,
+  Phone,
+  Wc,
+  CloudUpload,
+  //AccountBalance,
+  School,
+} from "@mui/icons-material"
+import { motion, AnimatePresence } from "framer-motion"
+
+const BackgroundBox = styled(Box)(({ theme }) => ({
+  minHeight: "100vh",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  backgroundImage: 'url("/education-background.jpg")',
+  backgroundSize: "cover",
+  backgroundPosition: "center",
+  backgroundAttachment: "fixed",
+  padding: theme.spacing(2),
+}))
+
+const StyledPaper = styled(Paper)(({ theme }) => ({
+  padding: theme.spacing(4),
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  background: "rgba(255, 255, 255, 0.9)",
+  backdropFilter: "blur(10px)",
+  boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)",
+  borderRadius: theme.shape.borderRadius * 2,
+  position: "relative",
+  overflow: "hidden",
+  width: "100%",
+  maxWidth: "500px",
+}))
+
+const StyledAvatar = styled(Avatar)(({ theme }) => ({
+  margin: theme.spacing(1),
+  backgroundColor: theme.palette.secondary.main,
+  width: theme.spacing(7),
+  height: theme.spacing(7),
+}))
+
+const Form = styled("form")(({ theme }) => ({
+  width: "100%",
+  marginTop: theme.spacing(3),
+}))
+
+const SubmitButton = styled(Button)(({ theme }) => ({
+  margin: theme.spacing(3, 0, 2),
+  padding: theme.spacing(1.5, 0),
+  fontSize: "1.1rem",
+}))
+
+const HomeButton = styled(Button)(({ theme }) => ({
+  position: "absolute",
+  top: theme.spacing(2),
+  right: theme.spacing(2),
+}))
+
+const Auth = () => {
+  const [isLogin, setIsLogin] = useState(true)
+  const [showPassword, setShowPassword] = useState(false)
+  const navigate = useNavigate()
+  const fileInputRef = useRef()
+
   const [formData, setFormData] = useState({
-    fullname: "",
-    gender: "",
+    studentId: "",
     email: "",
     password: "",
-    confirmPassword: "",
     department: "",
-    entranceExamCertificate: null,
+    role: "student",
+    firstName: "",
+    middleName: "",
+    lastName: "",
+    gender: "",
+    phoneNumber: "",
+    agreement: false,
+    certificate: null,
   });
+  const [errors, setErrors] = useState({});
+  //handling signin
 
-  const navigate = useNavigate(); // Initialize navigate
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  const handleFileChange = (e) => {
-    setFormData({ ...formData, entranceExamCertificate: e.target.files[0] });
-  };
-
-  const handleSubmit = async (e) => {
+  const handleSigninSubmit= async(e)=>{
     e.preventDefault();
-
-    const form = new FormData();
-    form.append("fullname", formData.fullname);
-    form.append("gender", formData.gender);
-    form.append("email", formData.email);
-    form.append("password", formData.password);
-    form.append("confirmPassword", formData.confirmPassword);
-    form.append("department", formData.department);
-    form.append("entranceExamCertificate", formData.entranceExamCertificate);
+    const signInData = {
+      studentId: formData.studentId, // get from form input
+      password: formData.password,
+    };
 
     try {
-      const response = await axios.post("http://localhost:5000/api/users/register", form, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+      const response = await fetch('http://localhost:5000/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(signInData),
+
       });
-      alert(response.data.message);
-      navigate("/student"); // Redirect to the student page
-      // If registration is successful, redirect to the student page
-      // if (response.status === 200) {
-      //   navigate("/student"); // Redirect to the student page
-      // }
+
+      const data = await response.json();
+
+      if (response.status ===200) {
+        console.log(data.message);
+        // Redirect based on role: student or admin
+        navigate(data.redirectTo);
+      } else {
+        console.log(data.message);
+      }
+    } catch (err) {
+      console.log('login faild due to server error',err)
+    } 
+  }
+const handleSignupSubmit=  async(e)=>{
+  e.preventDefault();
+
+    const formDataObj = new FormData();
+    formDataObj.append('firstName', formData.firstName);
+    formDataObj.append('middleName', formData.middleName);
+    formDataObj.append('lastName', formData.lastName);
+    formDataObj.append('email', formData.email);
+    formDataObj.append('password', formData.password);
+    formDataObj.append('department', formData.department);
+    formDataObj.append('role', formData.role);
+    formDataObj.append('gender', formData.gender);
+    formDataObj.append('phoneNumber', formData.phoneNumber);
+    formDataObj.append('agreement', formData.agreement);
+
+    // Handle the certificate field (file input)
+    if (formData.certificate) {
+      formDataObj.append('certificate', formData.certificate);
+    }
+
+    try {
+      const response = await fetch('http://localhost:5000/api/students/register', {
+        method: 'POST',
+        body: formDataObj,
+      });
+
+      const data = await response.json();
+
+      if (response.status === 201) {
+        alert('Registration successful! Use this username to login: ' + data.studentId);
+        // Redirect user based on role
+        navigate(formData.role === 'student' ? '/student' : '/admin');
+      } else if (response.status === 400) {
+        alert(data.message); // Handle duplicate user or other validation errors
+      } else {
+        alert('Registration failed: ' + data.message);
+      }
     } catch (error) {
-      alert("Registration failed: " + error.response.data.message);
+      console.error('Error during registration:', error);
+      alert('An error occurred during registration.');
+    }
+}
+  // Function to handle form submission
+  const handleSubmit = async (e) => {
+    if(isLogin){
+      handleSigninSubmit(e)
+    }
+    else{
+      handleSignupSubmit(e)
     }
   };
 
+  // Function to handle input changes
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: type === 'checkbox' ? checked : value,
+    }));
+  };
+
+  // Function to handle file input change
+  const handleFileChange = (e) => {
+    setFormData({
+      ...formData,
+      certificate: e.target.files[0], // Assign the uploaded file
+    });
+  };
+
+  // Toggle login/register mode
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
+  
+  // Toggle login/register mode
+  const toggleAuthMode = () => {
+    setIsLogin((prev) => !prev);
+    setErrors({});
+  };
+  
+  // Function to trigger file input click
+  const handleFileButtonClick = () => {
+    fileInputRef.current.click();
+  };
+  //handling login
+  
   return (
     <>
-      <div className="min-h-screen flex items-center justify-center bg-gray-100">
-        <div className="w-full max-w-lg bg-white shadow-md rounded-lg p-8">
-          <h2 className="text-3xl font-bold text-center text-gray-700 mb-6">Register</h2>
-          <form onSubmit={handleSubmit} encType="multipart/form-data" className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Full Name</label>
-              <input
-                type="text"
-                name="fullname"
-                placeholder="Full Name"
-                value={formData.fullname}
-                onChange={handleInputChange}
-                className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Gender</label>
-              <select
-                name="gender"
-                value={formData.gender}
-                onChange={handleInputChange}
-                className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                required
-              >
-                <option value="">Select Gender</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Email</label>
-              <input
-                type="email"
-                name="email"
-                placeholder="Email"
-                value={formData.email}
-                onChange={handleInputChange}
-                className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Password</label>
-              <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                value={formData.password}
-                onChange={handleInputChange}
-                className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Confirm Password</label>
-              <input
-                type="password"
-                name="confirmPassword"
-                placeholder="Confirm Password"
-                value={formData.confirmPassword}
-                onChange={handleInputChange}
-                className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Department</label>
-              <input
-                type="text"
-                name="department"
-                placeholder="Department"
-                value={formData.department}
-                onChange={handleInputChange}
-                className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Entrance Exam Certificate</label>
-              <input
-                type="file"
-                name="entranceExamCertificate"
-                onChange={handleFileChange}
-                className="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-600 hover:file:bg-indigo-100"
-                required
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="w-full bg-indigo-600 text-white p-2 rounded-md shadow-md hover:bg-indigo-700 transition duration-300 ease-in-out"
+    <BackgroundBox>
+      <Container component="main" maxWidth="xs">
+        <StyledPaper elevation={6}>
+          <HomeButton component={RouterLink} to="/" variant="outlined" startIcon={<Home />}>
+            Back to Home
+          </HomeButton>
+          <StyledAvatar>
+            <LockOutlined />
+          </StyledAvatar>
+          <Typography component="h1" variant="h5" gutterBottom>
+            {isLogin ? "Sign in" : "Sign up"}
+          </Typography>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={isLogin ? "login" : "signup"}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+              style={{ width: "100%" }}
             >
-              Register
-            </button>
-          </form>
-        </div>
-      </div>
-      <Login />
+              <Form onSubmit={handleSubmit}>
+                {!isLogin && (
+                  <Grid container spacing={2}>
+                    <Grid item xs={12} sm={6}>
+                      <TextField
+                        fullWidth
+                        name="firstName"
+                        required
+                        label="First Name"
+                        value={formData.firstName}
+                        onChange={handleChange}
+                        error={!!errors.firstName}
+                        helperText={errors.firstName}
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <Person />
+                            </InputAdornment>
+                          ),
+                        }}
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                      <TextField
+                        fullWidth
+                        name="middleName"
+                        required
+                        label="Middle Name"
+                        value={formData.middleName}
+                        onChange={handleChange}
+                        error={!!errors.middleName}
+                        helperText={errors.middleName}
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <Person />
+                            </InputAdornment>
+                          ),
+                        }}
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                      <TextField
+                        fullWidth
+                        name="lastName"
+                        label="Last Name"
+                        required
+                        value={formData.lastName}
+                        onChange={handleChange}
+                        error={!!errors.lastName}
+                        helperText={errors.lastName}
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <Person />
+                            </InputAdornment>
+                          ),
+                        }}
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                      <FormControl fullWidth error={!!errors.gender}>
+                        <InputLabel>Department</InputLabel>
+                        <Select
+                          required
+                          name="department"
+                          value={formData.department}
+                          onChange={handleChange}
+                          label="Department"
+                          startAdornment={
+                            <InputAdornment position="start">
+                              <School />
+                            </InputAdornment>
+                          }
+                        >
+                          <MenuItem value="computer engineering">computer engineering</MenuItem>
+                          <MenuItem value="electrical engineering">electrical engineering</MenuItem>
+                        </Select>
+                        {errors.gender && (
+                          <Typography color="error" variant="caption">
+                            {errors.department}
+                          </Typography>
+                        )}
+                      </FormControl>
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                      <FormControl fullWidth error={!!errors.gender}>
+                        <InputLabel>Gender</InputLabel>
+                        <Select
+                          required
+                          name="gender"
+                          value={formData.gender}
+                          onChange={handleChange}
+                          label="Gender"
+                          startAdornment={
+                            <InputAdornment position="start">
+                              <Wc />
+                            </InputAdornment>
+                          }
+                        >
+                          <MenuItem value="male">Male</MenuItem>
+                          <MenuItem value="female">Female</MenuItem>
+                        </Select>
+                        {errors.gender && (
+                          <Typography color="error" variant="caption">
+                            {errors.gender}
+                          </Typography>
+                        )}
+                      </FormControl>
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                      <FormControl fullWidth error={!!errors.gender}>
+                        <InputLabel>Role</InputLabel>
+                        <Select
+                          name="role"
+                          value={formData.role}
+                          onChange={handleChange}
+                          label="Role"
+                          startAdornment={
+                            <InputAdornment position="start">
+                              <School />
+                            </InputAdornment>
+                            
+                          }
+                        >
+                          <MenuItem value="student">student</MenuItem>
+                          <MenuItem value="teacher">teacher</MenuItem>
+                          <MenuItem value="admin">admin</MenuItem>
+                        </Select>
+                        {errors.gender && (
+                          <Typography color="error" variant="caption">
+                            {errors.role}
+                          </Typography>
+                        )}
+                      </FormControl>
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                      <TextField
+                        fullWidth
+                        name="phoneNumber"
+                        label="Phone Number"
+                        value={formData.phoneNumber}
+                        onChange={handleChange}
+                        error={!!errors.phoneNumber}
+                        helperText={errors.phoneNumber}
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <Phone />
+                            </InputAdornment>
+                          ),
+                        }}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField
+                        fullWidth
+                        name="email"
+                        label="Email"
+                        required
+                        value={formData.email}
+                        onChange={handleChange}
+                        error={!!errors.email}
+                        helperText={errors.email}
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <Email />
+                            </InputAdornment>
+                          ),
+                        }}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Box sx={{ mt: 2, mb: 2 }}>
+                        <Input
+                          type="file"
+                          name="certificate"
+                          inputRef={fileInputRef}
+                          onChange={handleFileChange}
+                          style={{ display: "none" }}
+                          inputProps={{ accept: "application/pdf, image/*" }}
+                        />
+                        <Button
+                          variant="outlined"
+                          onClick={handleFileButtonClick}
+                          fullWidth
+                          startIcon={<CloudUpload />}
+                          sx={{ py: 1.5 }}
+                        >
+                          Upload Certificate (PDF/PHOTO)
+                        </Button>
+                        {formData.certificate && (
+                          <Typography variant="body2" sx={{ mt: 1 }}>
+                            File selected: {formData.certificate.name}
+                          </Typography>
+                        )}
+                        {errors.certificate && (
+                          <Typography color="error" variant="caption">
+                            {errors.certificate}
+                          </Typography>
+                        )}
+                      </Box>
+                    </Grid>
+                  </Grid>
+                )}
+                {isLogin && (
+                  <TextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="studentId"
+                    label="Student ID"
+                    name="studentId"
+                    autoFocus
+                    value={formData.studentId}
+                    onChange={handleChange}
+                    error={!!errors.studentId}
+                    helperText={errors.studentId}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <Person />
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                )}
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type={showPassword ? "text" : "password"}
+                  id="password"
+                  autoComplete={isLogin ? "current-password" : "new-password"}
+                  value={formData.password}
+                  onChange={handleChange}
+                  error={!!errors.password}
+                  helperText={errors.password}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <LockOutlined />
+                      </InputAdornment>
+                    ),
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={togglePasswordVisibility}
+                          edge="end"
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+                {!isLogin && (
+                  <FormControlLabel
+                    control={
+                      <Checkbox checked={formData.agreement} onChange={handleChange} name="agreement" color="primary" />
+                    }
+                    label="I agree to the terms and conditions"
+                  />
+                )}
+                {!isLogin && errors.agreement && (
+                  <Typography color="error" variant="caption" display="block">
+                    {errors.agreement}
+                  </Typography>
+                )}
+                <SubmitButton type="submit" fullWidth variant="contained" color="primary">
+                  {isLogin ? "Sign In" : "Sign Up"}
+                </SubmitButton>
+              </Form>
+            </motion.div>
+          </AnimatePresence>
+          <Box mt={2}>
+            <Link component="button" variant="body2" onClick={toggleAuthMode}>
+              {isLogin ? "Don't have an account? Sign Up" : "Already have an account? Sign In"}
+            </Link>
+          </Box>
+        </StyledPaper>
+        <Login />
+      </Container>
+      
+    </BackgroundBox>
     </>
   );
-};
+  
+  }
 
-export default Registration;
+export default Auth

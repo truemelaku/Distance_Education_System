@@ -7,9 +7,11 @@ import Payment from "./components/Payment"
 import StudentDashboard from "./pages/StudentDashboard"
 import AdminDashboard from "./pages/AdminDashboard"
 import TeacherDashboard from "./pages/TeacherDashboard"
-import Layout from "./components/Layout"
+//import Layout from "./components/Layout"
 import Courses from "./pages/Courses"
 import Profile from "./components/Profile";
+import "./index.css"
+
 
 
 const theme = createTheme({
@@ -18,8 +20,6 @@ const theme = createTheme({
 
 function App() {
   // This should come from your authentication system
-  const userRole = localStorage.getItem("userRole") || "guest"
-
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -29,6 +29,8 @@ function App() {
           <Route path="/registration" element={<Registration />} />
           <Route path="/payment" element={<Payment />} />
           <Route path="/student" element={<StudentDashboard />} />
+          <Route path="/teacher" element={< TeacherDashboard/>} />
+          <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/courses" element={<Courses  />} />
             <Route path="/profile" element={<Profile />} />
           <Route path="*" element={<Navigate to="/" replace />} />

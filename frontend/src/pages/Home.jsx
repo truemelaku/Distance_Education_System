@@ -16,6 +16,7 @@ import "slick-carousel/slick/slick-theme.css"
 import Navbar from "../components/Navbar"
 import Footer from "./Footer"
 import { Group, MenuBook, Person, Star } from "@mui/icons-material"
+import TeacherDashboard from "./TeacherDashboard"
 
 const Home = () => {
   const courses = [
@@ -232,7 +233,7 @@ const Home = () => {
         {/* Additional Sections */}
         {/* You can add more sections here as needed */}
       </Box>
-
+<TeacherDashboard />
       <Footer />
     </Box>
   )

@@ -1,5 +1,6 @@
 import { Grid, Paper, Typography, List, ListItem, ListItemText, Button, Container, Box } from "@mui/material"
 import { School, Assignment, DateRange, VideoLibrary } from "@mui/icons-material"
+import UserList from "./UserList"
 
 const StudentDashboard = () => {
   // Mock data - replace with actual data from your backend
@@ -22,7 +23,7 @@ const StudentDashboard = () => {
             <Typography variant="h4" gutterBottom>
               Welcome, Student!
             </Typography>
-            <Typography variant="body1">Here's an overview of your learning progress and upcoming tasks.</Typography>
+            <Typography variant="body1">Heres an overview of your learning progress and upcoming tasks.</Typography>
           </Paper>
         </Grid>
 
@@ -80,6 +81,7 @@ const StudentDashboard = () => {
           </Paper>
         </Grid>
       </Grid>
+      <UserList />
     </Container>
   )
 }
