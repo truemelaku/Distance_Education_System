@@ -1,7 +1,7 @@
 // routes/studentRoutes.js
 const express = require('express');
 const Student = require('../models/Student');
-const { registerStudent, getTotalStudentCount } = require('../controllers/studentController');
+const { registerStudent, getTotalStudentCount, updateStudent,deleteStudent} = require('../controllers/studentController');
 const upload = require('../middlewares/upload'); // Import the upload middleware
 const router = express.Router();
 
@@ -18,6 +18,11 @@ router.get('/', async (req, res) => {
       res.status(500).json({ message: 'Failed to retrieve students' });
     }
   });
+  router.delete('/:id', deleteStudent);
+
+// PUT: Update student details by studentId
+router.put('/:id', updateStudent);
+  // counting
   router.get("/count", getTotalStudentCount);
 
 module.exports = router;

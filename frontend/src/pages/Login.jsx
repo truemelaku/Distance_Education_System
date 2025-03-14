@@ -1,13 +1,16 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { TextField, Button, Typography, Container, Box } from '@mui/material';
-import './login.css';
+
 import { useNavigate } from 'react-router-dom';
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
+    const showsignup=()=>{
+        navigate('/signup')
+    }
 
 
     const handleSubmit = async (e) => {
@@ -81,17 +84,32 @@ const Login = () => {
                             InputProps={{ style: { color: '#333' } }}
                         />
                     </Box>
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-lg"
-                    >
-                        Login
-                    </Button>
-                </form>
+                    <div className="space-y-4">
+  <Button
+    type="submit"
+    fullWidth
+    variant="contained"
+    className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-lg"
+  >
+    Login
+  </Button>
+
+  <Button
+    onClick={showsignup}
+    type="button"
+    fullWidth
+    variant="contained"
+    className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-lg"
+  >
+    Sign Up
+  </Button>
+</div>
+
+     </form>
             </Box>
+           
         </Container>
+        
     );
 };
 

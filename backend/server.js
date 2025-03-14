@@ -11,11 +11,7 @@ const adminRoutes = require('./routes/adminRoutes');
 // Initialize App and Environment Config
 
 const app = express();
-app.use(cors({
-  origin: 'http://localhost:5173', // Frontend URL
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
-  credentials: true, // Allow cookies to be sent with requests if needed
-}));
+app.use(cors());
 app.use(express.json());
 
 // MongoDB Connection
@@ -33,7 +29,7 @@ app.use('/api/auth', authRoutes);  // For login
 app.use('/api/students', studentRoutes);
 app.use('/api/teachers', teacherRoutes);
 app.use('/api/admins', adminRoutes);
-app.use('/api', teacherRoutes);
+
 
 // Start Server
 const PORT = process.env.PORT || 5000;

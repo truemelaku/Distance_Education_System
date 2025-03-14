@@ -129,15 +129,7 @@ export default function StudentDashboard() {
     const fetchStudentInfo = async () => {
       try {
         setLoading(true)
-        // In a real app, you would use the actual API call
-        // const response = await axios.get('http://localhost:5000/api/student/profile', {
-        //   headers: {
-        //     Authorization: `Bearer ${localStorage.getItem('token')}`
-        //   }
-        // });
-        // setStudentInfo(response.data);
-
-        // For demo purposes, we'll simulate an API response
+        
         setTimeout(() => {
           setStudentInfo({
             id: "12345",

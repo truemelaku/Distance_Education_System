@@ -59,9 +59,66 @@ exports.registerStudent = async (req, res) => {
 // Controller function to get total student count
 exports.getTotalStudentCount = async (req, res) => {
   try {
-    const totalStudents = await Student.countDocuments(); // MongoDB function to count documents
-    res.status(200).json({ totalStudents });
+    
+    const totalStudents = await Student.countDocuments();
+    res.json({ totalStudents });
   } catch (error) {
-    res.status(500).json({ message: "Error fetching total students", error });
+    console.error("Error fetching student count:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
+// Delete Student by ID
+exports.deleteStudent = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const student = await Student.findByIdAndDelete(id);
+    if (!student) {
+      return res.status(404).json({ message: "Student not found" });
+    }
+    res.status(200).json({ message: "Student deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting student:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+// Update Student by ID (MongoDB _id)
+exports.updateStudent = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const {
+      firstName,
+      middleName,
+      lastName,
+      email,
+      phoneNumber,
+      department,
+      gender,
+    } = req.body;
+
+    // Try to update the student details
+    const student = await Student.findByIdAndUpdate(
+      id,
+      {
+        firstName,
+        middleName,
+        lastName,
+        email,
+        phoneNumber,
+        department,
+        gender,
+      },
+      { new: true } // The new option ensures we get the updated student
+    );
+
+    if (!student) {
+      return res.status(404).json({ message: "Student not found" });
+    }
+
+    res.status(200).json(student); // Return the updated student data
+  } catch (error) {
+    console.error("Error updating student:", error);
+    res.status(500).json({ message: "Server error" });
   }
 };

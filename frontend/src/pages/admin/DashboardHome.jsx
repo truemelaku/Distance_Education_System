@@ -10,6 +10,9 @@ import {
   AttachMoney as MoneyIcon,
 } from "@mui/icons-material"
 
+// Axios base URL setup to ensure it points to the backend
+axios.defaults.baseURL = 'http://localhost:5000'; // Update with your backend URL if needed
+
 const StatCard = ({ icon, title, value, color }) => (
   <Paper
     elevation={3}
@@ -58,20 +61,32 @@ StatCard.propTypes = {
 }
 
 const DashboardHome = () => {
-  const [studentCount, setStudentCount] = useState(0);
+  const [studentCount, setStudentCount] = useState(0)
+  const [teacherCount, setTeacherCount] = useState(0)
 
   useEffect(() => {
     const fetchStudentCount = async () => {
       try {
-        const response = await axios.get("/api/students/count"); // Adjust the URL as per your API endpoint
-        setStudentCount(response.data.totalStudents);
+        const response = await axios.get("/api/students/count")
+    
+        setStudentCount(response.data.totalStudents || 0) // Ensure default if no data
       } catch (error) {
-        console.error("Error fetching student count:", error);
+        console.error("Error fetching student count:", error)
       }
-    };
+    }
 
-    fetchStudentCount();
-  }, []);
+    const fetchTeacherCount = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/api/teachers/count");
+        setTeacherCount(response.data.totalTeachers || 9000) // Ensure default if no data
+      } catch (error) {
+        console.error("Error fetching teacher count:", error)
+      }
+    }
+
+    fetchStudentCount()
+    fetchTeacherCount()
+  }, [])
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -80,26 +95,38 @@ const DashboardHome = () => {
       </Typography>
 
       <Grid container spacing={3} sx={{ mb: 4 }}>
+        {/* Total Students */}
         <Grid item xs={12} sm={6} md={3}>
-        <StatCard 
-  icon={<PeopleIcon />} 
-  title="Total Students" 
-  value={studentCount !== undefined ? studentCount.toString() : "0"} 
-  color="primary" 
-/>
+          <StatCard
+            icon={<PeopleIcon />}
+            title="Total Students"
+            value={studentCount !== undefined ? studentCount.toString() : "0"}
+            color="primary"
+          />
+        </Grid>
 
-        </Grid>
+        {/* Total Teachers */}
         <Grid item xs={12} sm={6} md={3}>
-          <StatCard icon={<SchoolIcon />} title="Total Teachers" value="42" color="success" />
+          <StatCard
+            icon={<SchoolIcon />}
+            title="Total Teachers"
+            value={teacherCount !== undefined ? teacherCount.toString() : "0"}
+            color="secondary"
+          />
         </Grid>
+
+        {/* Total Courses (Static for now) */}
         <Grid item xs={12} sm={6} md={3}>
           <StatCard icon={<BookIcon />} title="Total Courses" value="68" color="warning" />
         </Grid>
+
+        {/* Revenue (Static for now) */}
         <Grid item xs={12} sm={6} md={3}>
           <StatCard icon={<MoneyIcon />} title="Revenue" value="$24,500" color="error" />
         </Grid>
       </Grid>
 
+      {/* Recent Activities Section */}
       <Grid container spacing={3}>
         <Grid item xs={12} md={8}>
           <Paper sx={{ p: 3, borderRadius: 2 }}>
@@ -128,6 +155,8 @@ const DashboardHome = () => {
             </Box>
           </Paper>
         </Grid>
+
+        {/* Upcoming Events Section */}
         <Grid item xs={12} md={4}>
           <Paper sx={{ p: 3, borderRadius: 2 }}>
             <Typography variant="h6" gutterBottom>

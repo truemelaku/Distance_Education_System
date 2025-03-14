@@ -12,6 +12,8 @@ import Courses from "./pages/Courses"
 import Profile from "./components/Profile";
 import "./index.css"
 import Logout from "./pages/Logout"
+import Login from "./pages/Login"
+import Regisration from "./pages/Registration"
 
 
 
@@ -34,6 +36,8 @@ function App() {
           <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/courses" element={<Courses  />} />
             <Route path="/logout" element={<Logout  />} />
+            <Route path="/login" element={<Login  />} />
+            <Route path="/signup" element={<Regisration  />} />
             <Route path="/profile" element={<Profile />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

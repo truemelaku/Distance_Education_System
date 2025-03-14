@@ -56,3 +56,13 @@ exports.deleteTeacher = async (req, res) => {
     res.status(500).json({ message: 'Error deleting teacher', error: error.message });
   }
 };
+exports.getTotalTeacherCount=async (req,res)=>{
+  try {
+    const totalTeachers = await Teacher.countDocuments();
+    res.status(200).json({ totalTeachers });
+}
+   catch (error) {
+    console.error("Error fetching student count:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+}

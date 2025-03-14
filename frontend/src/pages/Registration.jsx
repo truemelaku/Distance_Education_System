@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useRef } from "react"
-import Login from './Login'
+
 
 import {
   Container,
@@ -11,7 +11,6 @@ import {
   Box,
   Paper,
   Avatar,
-  Link,
   InputAdornment,
   IconButton,
   FormControl,
@@ -35,7 +34,6 @@ import {
   Phone,
   Wc,
   CloudUpload,
-  //AccountBalance,
   School,
 } from "@mui/icons-material"
 import { motion, AnimatePresence } from "framer-motion"
@@ -92,10 +90,12 @@ const HomeButton = styled(Button)(({ theme }) => ({
 }))
 
 const Auth = () => {
-  const [isLogin, setIsLogin] = useState(true)
   const [showPassword, setShowPassword] = useState(false)
   const navigate = useNavigate()
   const fileInputRef = useRef()
+  const showlogin=()=>{
+    navigate('/login')
+  }
 
   const [formData, setFormData] = useState({
     studentId: "",
@@ -111,37 +111,8 @@ const Auth = () => {
     agreement: false,
     certificate: null,
   });
-  const [errors, setErrors] = useState({});
-  //handling signin
-
-  const handleSigninSubmit= async(e)=>{
-    e.preventDefault();
-    const signInData = {
-      studentId: formData.studentId, // get from form input
-      password: formData.password,
-    };
-
-    try {
-      const response = await fetch('http://localhost:5000/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(signInData),
-
-      });
-
-      const data = await response.json();
-
-      if (response.status ===200) {
-        console.log(data.message);
-        // Redirect based on role: student or admin
-        navigate(data.redirectTo);
-      } else {
-        console.log(data.message);
-      }
-    } catch (err) {
-      console.log('login faild due to server error',err)
-    } 
-  }
+  
+  const [errors,setErrors]=useState("")
 const handleSignupSubmit=  async(e)=>{
   e.preventDefault();
 
@@ -173,7 +144,7 @@ const handleSignupSubmit=  async(e)=>{
       if (response.status === 201) {
         alert('Registration successful! Use this username to login: ' + data.studentId);
         // Redirect user based on role
-        navigate(formData.role === 'student' ? '/student' : '/admin');
+        navigate('/login');
       } else if (response.status === 400) {
         alert(data.message); // Handle duplicate user or other validation errors
       } else {
@@ -186,12 +157,8 @@ const handleSignupSubmit=  async(e)=>{
 }
   // Function to handle form submission
   const handleSubmit = async (e) => {
-    if(isLogin){
-      handleSigninSubmit(e)
-    }
-    else{
       handleSignupSubmit(e)
-    }
+    
   };
 
   // Function to handle input changes
@@ -211,22 +178,13 @@ const handleSignupSubmit=  async(e)=>{
     });
   };
 
-  // Toggle login/register mode
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
   };
   
-  // Toggle login/register mode
-  const toggleAuthMode = () => {
-    setIsLogin((prev) => !prev);
-    setErrors({});
-  };
-  
-  // Function to trigger file input click
   const handleFileButtonClick = () => {
     fileInputRef.current.click();
   };
-  //handling login
   
   return (
     <>
@@ -239,20 +197,13 @@ const handleSignupSubmit=  async(e)=>{
           <StyledAvatar>
             <LockOutlined />
           </StyledAvatar>
-          <Typography component="h1" variant="h5" gutterBottom>
-            {isLogin ? "Sign in" : "Sign up"}
-          </Typography>
+
           <AnimatePresence mode="wait">
             <motion.div
-              key={isLogin ? "login" : "signup"}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-              style={{ width: "100%" }}
+    
             >
               <Form onSubmit={handleSubmit}>
-                {!isLogin && (
+            
                   <Grid container spacing={2}>
                     <Grid item xs={12} sm={6}>
                       <TextField
@@ -328,6 +279,10 @@ const handleSignupSubmit=  async(e)=>{
                         >
                           <MenuItem value="computer engineering">computer engineering</MenuItem>
                           <MenuItem value="electrical engineering">electrical engineering</MenuItem>
+                          <MenuItem value="electrical engineering">Software engineering</MenuItem>
+                          <MenuItem value="electrical engineering">information system</MenuItem>
+                          <MenuItem value="electrical engineering">cyber security</MenuItem>
+                          <MenuItem value="electrical engineering">information technology</MenuItem>
                         </Select>
                         {errors.gender && (
                           <Typography color="error" variant="caption">
@@ -361,32 +316,7 @@ const handleSignupSubmit=  async(e)=>{
                         )}
                       </FormControl>
                     </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <FormControl fullWidth error={!!errors.gender}>
-                        <InputLabel>Role</InputLabel>
-                        <Select
-                          name="role"
-                          value={formData.role}
-                          onChange={handleChange}
-                          label="Role"
-                          startAdornment={
-                            <InputAdornment position="start">
-                              <School />
-                            </InputAdornment>
-                            
-                          }
-                        >
-                          <MenuItem value="student">student</MenuItem>
-                          <MenuItem value="teacher">teacher</MenuItem>
-                          <MenuItem value="admin">admin</MenuItem>
-                        </Select>
-                        {errors.gender && (
-                          <Typography color="error" variant="caption">
-                            {errors.role}
-                          </Typography>
-                        )}
-                      </FormControl>
-                    </Grid>
+              
                     <Grid item xs={12} sm={6}>
                       <TextField
                         fullWidth
@@ -456,30 +386,7 @@ const handleSignupSubmit=  async(e)=>{
                       </Box>
                     </Grid>
                   </Grid>
-                )}
-                {isLogin && (
-                  <TextField
-                    variant="outlined"
-                    margin="normal"
-                    required
-                    fullWidth
-                    id="studentId"
-                    label="Student ID"
-                    name="studentId"
-                    autoFocus
-                    value={formData.studentId}
-                    onChange={handleChange}
-                    error={!!errors.studentId}
-                    helperText={errors.studentId}
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <Person />
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                )}
+        
                 <TextField
                   variant="outlined"
                   margin="normal"
@@ -489,7 +396,7 @@ const handleSignupSubmit=  async(e)=>{
                   label="Password"
                   type={showPassword ? "text" : "password"}
                   id="password"
-                  autoComplete={isLogin ? "current-password" : "new-password"}
+
                   value={formData.password}
                   onChange={handleChange}
                   error={!!errors.password}
@@ -513,32 +420,33 @@ const handleSignupSubmit=  async(e)=>{
                     ),
                   }}
                 />
-                {!isLogin && (
+             
                   <FormControlLabel
                     control={
                       <Checkbox checked={formData.agreement} onChange={handleChange} name="agreement" color="primary" />
                     }
                     label="I agree to the terms and conditions"
                   />
-                )}
-                {!isLogin && errors.agreement && (
+              
+                
                   <Typography color="error" variant="caption" display="block">
                     {errors.agreement}
                   </Typography>
-                )}
+          
                 <SubmitButton type="submit" fullWidth variant="contained" color="primary">
-                  {isLogin ? "Sign In" : "Sign Up"}
+                  Sign Up
                 </SubmitButton>
               </Form>
+              <SubmitButton type="submit" fullWidth variant="contained" color="primary" onClick={showlogin}>
+                  login
+                </SubmitButton>
             </motion.div>
           </AnimatePresence>
           <Box mt={2}>
-            <Link component="button" variant="body2" onClick={toggleAuthMode}>
-              {isLogin ? "Don't have an account? Sign Up" : "Already have an account? Sign In"}
-            </Link>
+
           </Box>
         </StyledPaper>
-        <Login />
+        
       </Container>
       
     </BackgroundBox>
