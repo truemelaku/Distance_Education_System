@@ -1,6 +1,7 @@
 
 const Teacher = require('../models/Teacher');
 const bcrypt = require('bcrypt');
+const path=require('path');
 
 // Register Teacher
 exports.registerTeacher = async (req, res) => {
@@ -66,3 +67,24 @@ exports.getTotalTeacherCount=async (req,res)=>{
     res.status(500).json({ error: "Server error" });
   }
 }
+//uploading lectures
+exports.uploadLecture = async (req, res) => {
+  try {
+    const teacherId = req.teacher._id; // Assuming teacher authentication is done
+    const { title, description } = req.body;
+
+    // Construct file URL
+    const fileUrl = path.join('uploads', req.file.filename);
+
+    // Save lecture details in the teacher document
+    await Teacher.findByIdAndUpdate(teacherId, {
+      $push: {
+        uploadedLectures: { title, description, fileUrl },
+      }
+    });
+
+    res.status(200).json({ message: 'Lecture uploaded successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to upload lecture', error });
+  }
+};

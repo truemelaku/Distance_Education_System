@@ -58,6 +58,7 @@ import NotifyTeachers from "./admin/NotifyTeachers"
 import ViewNotifications from "./admin/ViewNotifications"
 import Feedback from "./admin/Feedback"
 import Fee from "./admin/Fee"
+import { useNavigate } from "react-router-dom"
 
 const drawerWidth = 240
 
@@ -126,6 +127,7 @@ const AdminDashboard = () => {
   const [open, setOpen] = useState(true)
   const [anchorEl, setAnchorEl] = useState(null)
   const [selectedItem, setSelectedItem] = useState("dashboard")
+  const navigate=useNavigate();
 
   const handleDrawerOpen = () => {
     setOpen(true)
@@ -151,7 +153,6 @@ const AdminDashboard = () => {
   }
 
   const handleLogout = () => {
-    // Handle logout logic here
     handleClose()
   }
 
@@ -215,7 +216,7 @@ return (
               Profile
             </MenuItem>
             <MenuItem onClick={handleClose}>Settings</MenuItem>
-            <MenuItem onClick={handleLogout}>Logout</MenuItem>
+            <MenuItem onClick={() => navigate('/logout')}>Logout</MenuItem>
           </Menu>
         </Toolbar>
       </AppBarStyled>

@@ -29,7 +29,7 @@ const Login = () => {
             console.log("Received Role:", role);
             // Save token to local storage
             localStorage.setItem('token', token);
-           // console.log("Token stored in localStorage:", localStorage.getItem('authToken'));
+           console.log("Token stored in localStorage:", localStorage.getItem('token'));
 
 
             // Redirect based on role

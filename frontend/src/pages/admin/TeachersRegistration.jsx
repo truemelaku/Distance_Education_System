@@ -77,7 +77,7 @@ export default function TeacherPage() {
       setTeachers(teachers.filter((teacher) => teacher._id !== id));
       alert('Teacher deleted successfully');
     } catch (error) {
-      alert('Error deleting teacher');
+      alert('Error deletingtttt teacher');
       console.error(error);
     }
   };

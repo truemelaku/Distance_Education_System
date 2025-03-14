@@ -1,7 +1,12 @@
 import { Container, Grid, Paper, Typography, List, ListItem, ListItemText, Button, Box } from "@mui/material"
 import { School, Assignment, People, Forum, VideoLibrary, Assessment } from "@mui/icons-material"
+import { useNavigate } from "react-router-dom"
 
 const TeacherDashboard = () => {
+  const navigate=useNavigate();
+const gotoUpload=()=>{
+  navigate('/lectureUploading')
+}
   // Mock data - replace with actual data from your backend
   const teachingCourses = [
     { id: 1, name: "Advanced Web Development", students: 30 },
@@ -12,6 +17,7 @@ const TeacherDashboard = () => {
     { id: 1, task: "Grade JavaScript Projects", dueDate: "2024-03-18" },
     { id: 2, task: "Prepare lecture on Neural Networks", dueDate: "2024-03-22" },
   ]
+
 
   return (
     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
@@ -73,7 +79,7 @@ const TeacherDashboard = () => {
               Quick Actions
             </Typography>
             <Box sx={{ display: "flex", justifyContent: "space-around", flexWrap: "wrap" }}>
-              <Button startIcon={<VideoLibrary />}>Upload Lecture</Button>
+            <Button onClick={gotoUpload} startIcon={<VideoLibrary />}>Upload Lecture</Button>
               <Button startIcon={<Assignment />}>Create Assignment</Button>
               <Button startIcon={<Forum />}>Discussion Forums</Button>
               <Button startIcon={<People />}>Student List</Button>

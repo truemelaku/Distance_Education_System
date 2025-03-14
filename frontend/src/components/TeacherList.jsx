@@ -10,6 +10,7 @@ export default function TeacherList() {
     const fetchTeachers = async () => {
       try {
         const response = await axios.get('http://localhost:5000/api/teachers');
+        
         setTeachers(response.data);
         setLoading(false);  // Stop loading once data is fetched
       } catch (error) {
@@ -22,19 +23,47 @@ export default function TeacherList() {
   }, []);
 
   const handleDelete = async (id) => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      alert('Admin is not logged in'); // Ensure admin is logged in
+      return;
+    }
     try {
-      // Log the ID being sent to the delete request
-      console.log('Deleting teacher with ID:', id);
+      // Log the token being sent in the request
+      console.log('Sending token:', token);
   
-      const response = await axios.delete(`http://localhost:5000/api/teachers/${id}`);
-      console.log(response)
-      setTeachers(teachers.filter(teacher => teacher._id !== id));
+      const response = await axios.delete(`http://localhost:5000/api/teachers/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Attach the token in the request headers
+        },
+      });
+  
+      console.log('Delete response:', response);
+  
+      // Update UI by removing the deleted teacher from the list
+      setTeachers(teachers.filter((teacher) => teacher._id !== id));
       alert('Teacher deleted successfully');
     } catch (error) {
-      alert('Error deleting teacher');
-      console.error(error);
+      console.error('Error deleting teacher:', error);
+      
+      // Check if there is a server response
+      if (error.response) {
+        // Server responded with a status other than 200 range
+        console.error('Server error:', error.response.data);
+        alert(`Error deleting teacher: ${error.response.data.message}`);
+      } else if (error.request) {
+        // Request was made but no response was received
+        console.error('No response received:', error.request);
+        alert('No response from server. Please try again later.');
+      } else {
+        // Something else happened while setting up the request
+        console.error('Error setting up request:', error.message);
+        alert(`Error: ${error.message}`);
+      }
     }
   };
+  
+  
   
 
   return (

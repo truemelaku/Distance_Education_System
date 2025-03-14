@@ -14,6 +14,7 @@ import "./index.css"
 import Logout from "./pages/Logout"
 import Login from "./pages/Login"
 import Regisration from "./pages/Registration"
+import LectureUpload from "./components/LectureUpload"
 
 
 
@@ -36,6 +37,7 @@ function App() {
           <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/courses" element={<Courses  />} />
             <Route path="/logout" element={<Logout  />} />
+            <Route path="/lectureUploading" element={<LectureUpload  />} />
             <Route path="/login" element={<Login  />} />
             <Route path="/signup" element={<Regisration  />} />
             <Route path="/profile" element={<Profile />} />
