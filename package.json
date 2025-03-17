@@ -1,0 +1,27 @@
+{
+  "name": "wbdems",
+  "version": "1.0.0",
+  "main": "main.jsx",
+"scripts": {
+  "test": "echo \"Error: no test specified\" && exit 1",
+  "start": "concurrently \"npm run server\" \"npm run client\"",
+  "server": "cd backend && npm start",
+  "client": "cd frontend && npm run dev"
+},
+
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/truemelaku/Distance_Education_System.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/truemelaku/Distance_Education_System/issues"
+  },
+  "homepage": "https://github.com/truemelaku/Distance_Education_System#readme",
+  "description": "",
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
