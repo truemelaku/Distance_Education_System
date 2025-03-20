@@ -3,8 +3,29 @@
 import { useState, useRef } from "react"
 
 
+<<<<<<< HEAD
 import {Container,Typography,TextField,Button,Box, Paper,Avatar,InputAdornment,IconButton,FormControl,InputLabel,Select,MenuItem,Checkbox,FormControlLabel,
   Input,Grid,
+=======
+import {
+  Container,
+  Typography,
+  TextField,
+  Button,
+  Box,
+  Paper,
+  Avatar,
+  InputAdornment,
+  IconButton,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Checkbox,
+  FormControlLabel,
+  Input,
+  Grid,
+>>>>>>> 5300dcd507ec22af243924c44429b5c1b384c539
 } from "@mui/material"
 import { styled } from "@mui/material/styles"
 import { Link as RouterLink, useNavigate } from "react-router-dom"
@@ -97,7 +118,10 @@ const Auth = () => {
   });
   
   const [errors,setErrors]=useState("")
+<<<<<<< HEAD
   const [verification,setVerification]=useState("")
+=======
+>>>>>>> 5300dcd507ec22af243924c44429b5c1b384c539
 const handleSignupSubmit=  async(e)=>{
   e.preventDefault();
 
@@ -127,6 +151,7 @@ const handleSignupSubmit=  async(e)=>{
       const data = await response.json();
 
       if (response.status === 201) {
+<<<<<<< HEAD
         if (data.role === 'student') {
           // Store the studentId in localStorage only for students
           localStorage.setItem('studentId', data.studentId);
@@ -154,6 +179,28 @@ const handleSignupSubmit=  async(e)=>{
     }
 }
 
+=======
+        alert('Registration successful! Use this username to login: ' + data.studentId);
+        // Redirect user based on role
+        navigate('/login');
+      } else if (response.status === 400) {
+        alert(data.message); // Handle duplicate user or other validation errors
+      } else {
+        alert('Registration failed: ' + data.message);
+      }
+    } catch (error) {
+      console.error('Error during registration:', error);
+      alert('An error occurred during registration.');
+    }
+}
+  // Function to handle form submission
+  const handleSubmit = async (e) => {
+      handleSignupSubmit(e)
+    
+  };
+
+  // Function to handle input changes
+>>>>>>> 5300dcd507ec22af243924c44429b5c1b384c539
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prevData) => ({
@@ -180,7 +227,10 @@ const handleSignupSubmit=  async(e)=>{
   
   return (
     <>
+<<<<<<< HEAD
    
+=======
+>>>>>>> 5300dcd507ec22af243924c44429b5c1b384c539
     <BackgroundBox>
       <Container component="main" maxWidth="xs">
         <StyledPaper elevation={6}>
@@ -195,8 +245,13 @@ const handleSignupSubmit=  async(e)=>{
             <motion.div
     
             >
+<<<<<<< HEAD
               <Form onSubmit={handleSignupSubmit}>
               
+=======
+              <Form onSubmit={handleSubmit}>
+            
+>>>>>>> 5300dcd507ec22af243924c44429b5c1b384c539
                   <Grid container spacing={2}>
                     <Grid item xs={12} sm={6}>
                       <TextField
@@ -313,7 +368,10 @@ const handleSignupSubmit=  async(e)=>{
                     <Grid item xs={12} sm={6}>
                       <TextField
                         fullWidth
+<<<<<<< HEAD
                         required
+=======
+>>>>>>> 5300dcd507ec22af243924c44429b5c1b384c539
                         name="phoneNumber"
                         label="Phone Number"
                         value={formData.phoneNumber}
@@ -444,6 +502,7 @@ const handleSignupSubmit=  async(e)=>{
       </Container>
       
     </BackgroundBox>
+<<<<<<< HEAD
     <Box className="absolute top-1/4 left-1/2 transform -translate-x-1/2 p-4 w-4/5 sm:w-2/3 md:w-1/2 lg:w-1/3">
   {/* Tailwind width for responsiveness */}
   <div  className="w-full p-4 rounded-lg  fs-30 text-green-800 text-2xl">
@@ -451,6 +510,8 @@ const handleSignupSubmit=  async(e)=>{
   </div>
 </Box>
 
+=======
+>>>>>>> 5300dcd507ec22af243924c44429b5c1b384c539
     </>
   );
   

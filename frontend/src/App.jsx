@@ -32,7 +32,11 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/registration" element={<Registration />} />
           <Route path="/payment" element={<Payment />} />
+<<<<<<< HEAD
           <Route path="/studentDashboard/*" element={<StudentDashboard />} />
+=======
+          <Route path="/StudentDashboard/*" element={<StudentDashboard />} />
+>>>>>>> 5300dcd507ec22af243924c44429b5c1b384c539
           <Route path="/teacher" element={< TeacherDashboard/>} />
           <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/courses" element={<Courses  />} />

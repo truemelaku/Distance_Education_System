@@ -7,6 +7,10 @@ const authRoutes = require('./routes/authRoutes');
 const studentRoutes = require('./routes/studentRoutes');
 const teacherRoutes = require('./routes/teacherRoutes');
 const adminRoutes = require('./routes/adminRoutes');
+<<<<<<< HEAD
+=======
+const lectureRoutes = require('./routes/LectureRoutes');
+>>>>>>> 5300dcd507ec22af243924c44429b5c1b384c539
 
 // Initialize App and Environment Config
 
@@ -29,6 +33,10 @@ app.use('/api/auth', authRoutes);  // For login
 app.use('/api/students', studentRoutes);
 app.use('/api/teachers', teacherRoutes);
 app.use('/api/admins', adminRoutes);
+<<<<<<< HEAD
+=======
+app.use("/api/lectures", lectureRoutes);
+>>>>>>> 5300dcd507ec22af243924c44429b5c1b384c539
 
 
 // Start Server
