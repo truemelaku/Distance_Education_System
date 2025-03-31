@@ -16,9 +16,9 @@ exports.loginUser = async (req, res) => {
         let user = null;
 
         // Check in Student, Teacher, or Admin collections based on the username
-        user = await Student.findOne({ studentId: username }) || 
-               await Teacher.findOne({ teacherId: username }) || 
-               await Admin.findOne({ adminId: username });
+        // user = await Student.findOne({ studentId: username }) || 
+        //        await Teacher.findOne({ teacherId: username }) || 
+        //        await Admin.findOne({ adminId: username });
 
         // Check in Students
          user = await Student.findOne({ studentId: username });

@@ -6,14 +6,9 @@ const path = require('path');
 const authRoutes = require('./routes/authRoutes');
 const studentRoutes = require('./routes/studentRoutes');
 const teacherRoutes = require('./routes/teacherRoutes');
+const LectureRoutes = require('./routes/LectureRoutes');
 const adminRoutes = require('./routes/adminRoutes');
-<<<<<<< HEAD
-=======
-const lectureRoutes = require('./routes/LectureRoutes');
->>>>>>> 5300dcd507ec22af243924c44429b5c1b384c539
-
-// Initialize App and Environment Config
-
+const resourceRoutes= require('./routes/ResourceRoutes')
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -31,12 +26,10 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // Routes
 app.use('/api/auth', authRoutes);  // For login
 app.use('/api/students', studentRoutes);
+app.use('/api/lectures',LectureRoutes)
 app.use('/api/teachers', teacherRoutes);
 app.use('/api/admins', adminRoutes);
-<<<<<<< HEAD
-=======
-app.use("/api/lectures", lectureRoutes);
->>>>>>> 5300dcd507ec22af243924c44429b5c1b384c539
+app.use("/api/resources", resourceRoutes);
 
 
 // Start Server

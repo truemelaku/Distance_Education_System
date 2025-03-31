@@ -101,6 +101,7 @@ exports.updateStudent = async (req, res) => {
     const student = await Student.findByIdAndUpdate(
       id,
       {
+        studentId,
         firstName,
         middleName,
         lastName,
@@ -120,5 +121,25 @@ exports.updateStudent = async (req, res) => {
   } catch (error) {
     console.error("Error updating student:", error);
     res.status(500).json({ message: "Server error" });
+  }
+};
+exports.studentProfile=async (req, res) => {
+  try {
+    const student = await Student.findById(req.user.id); // Find the user in your database
+    if (!student) return res.status(404).json({ message: 'Student not found' });
+
+    res.json({
+      studentId: student.studentId,
+      email: student.email,
+      firstName: student.firstName,
+      middleName: student.middleName,
+      lastName: student.lastName,
+      department: student.department,
+      gender: student.gender,
+     phoneNumber:student.phoneNumber,
+    });
+    
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching user profile' });
   }
 };

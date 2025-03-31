@@ -1,9 +1,14 @@
-// routes/studentRoutes.js
+
+
 const express = require('express');
 const Student = require('../models/Student');
-const { registerStudent, getTotalStudentCount, updateStudent,deleteStudent} = require('../controllers/studentController');
+const jwt = require('jsonwebtoken');
+const { registerStudent, getTotalStudentCount, updateStudent,deleteStudent,studentProfile} = require('../controllers/studentController');
 const upload = require('../middlewares/upload'); // Import the upload middleware
+const authenticateToken= require('../middlewares/authenticateToken');
 const router = express.Router();
+require('dotenv').config();
+const jwtSecret = process.env.JWT_SECRET;
 
 
 router.post('/register', upload.single('certificate'), registerStudent);
@@ -25,4 +30,10 @@ router.put('/:id', updateStudent);
   // counting
   router.get("/count", getTotalStudentCount);
 
+  //profiles
+// Middleware for authenticating token
+
+
+// Profile API
+router.get('/profile', authenticateToken,studentProfile) 
 module.exports = router;

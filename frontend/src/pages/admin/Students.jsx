@@ -5,14 +5,14 @@ const StudentTable = () => {
   const [loading, setLoading] = useState(true); // State to manage loading state
   const [editStudent, setEditStudent] = useState(null); // State for the student being edited
   const [updatedStudent, setUpdatedStudent] = useState({
-    _id: '', // Use _id for update operations
-    firstName: '',
-    middleName: '',
-    lastName: '',
-    email: '',
-    phoneNumber: '',
-    department: '',
-    gender: ''
+    _id: "", // Use _id for update operations
+    firstName: "",
+    middleName: "",
+    lastName: "",
+    email: "",
+    phoneNumber: "",
+    department: "",
+    gender: "",
   }); // State to manage the updated student data
 
   // Fetch students from the backend
@@ -34,9 +34,12 @@ const StudentTable = () => {
   // Delete student
   const deleteStudent = async (_id) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/students/${_id}`, {
-        method: 'DELETE',
-      });
+      const response = await fetch(
+        `http://localhost:5000/api/students/${_id}`,
+        {
+          method: "DELETE",
+        }
+      );
       if (response.ok) {
         setStudents(students.filter((student) => student._id !== _id)); // Remove the deleted student from the list
       } else {
@@ -50,13 +53,16 @@ const StudentTable = () => {
   // Update student
   const updateStudent = async (updatedStudent) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/students/${updatedStudent._id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(updatedStudent),
-      });
+      const response = await fetch(
+        `http://localhost:5000/api/students/${updatedStudent._id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedStudent),
+        }
+      );
 
       if (response.ok) {
         const updatedData = await response.json();
@@ -68,7 +74,10 @@ const StudentTable = () => {
         setEditStudent(null); // Close the edit modal
       } else {
         const errorData = await response.json();
-        console.error("Failed to update student:", errorData.message || "Unknown error");
+        console.error(
+          "Failed to update student:",
+          errorData.message || "Unknown error"
+        );
       }
     } catch (error) {
       console.error("Error updating student:", error.message);
@@ -90,7 +99,9 @@ const StudentTable = () => {
 
   return (
     <div className="container mx-auto ">
-      <h1 className="text-2xl font-bold text-center mb-6">Registered Students</h1>
+      <h1 className="text-2xl font-bold text-center mb-6">
+        Registered Students
+      </h1>
 
       {loading ? (
         <p className="text-center text-gray-500">Loading...</p>
@@ -101,13 +112,19 @@ const StudentTable = () => {
               <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                 <th className="border border-gray-300 px-4 py-2">Student ID</th>
                 <th className="border border-gray-300 px-4 py-2">First Name</th>
-                <th className="border border-gray-300 px-4 py-2">Middle Name</th>
+                <th className="border border-gray-300 px-4 py-2">
+                  Middle Name
+                </th>
                 <th className="border border-gray-300 px-4 py-2">Last Name</th>
                 <th className="border border-gray-300 px-4 py-2">Email</th>
-                <th className="border border-gray-300 px-4 py-2">Phone Number</th>
+                <th className="border border-gray-300 px-4 py-2">
+                  Phone Number
+                </th>
                 <th className="border border-gray-300 px-4 py-2">Department</th>
                 <th className="border border-gray-300 px-4 py-2">Gender</th>
-                <th className="border border-gray-300 px-4 py-2">Certificate</th>
+                <th className="border border-gray-300 px-4 py-2">
+                  Certificate
+                </th>
                 <th className="border border-gray-300 px-4 py-2">Actions</th>
               </tr>
             </thead>
@@ -117,25 +134,43 @@ const StudentTable = () => {
                   key={student._id}
                   className="bg-white border-b border-gray-300 hover:bg-gray-100"
                 >
-                  <td className="border border-gray-300 px-4 py-2">{student.studentId}</td>
-                  <td className="border border-gray-300 px-4 py-2">{student.firstName}</td>
-                  <td className="border border-gray-300 px-4 py-2">{student.middleName}</td>
-                  <td className="border border-gray-300 px-4 py-2">{student.lastName}</td>
-                  <td className="border border-gray-300 px-4 py-2">{student.email}</td>
-                  <td className="border border-gray-300 px-4 py-2">{student.phoneNumber}</td>
-                  <td className="border border-gray-300 px-4 py-2">{student.department}</td>
-                  <td className="border border-gray-300 px-4 py-2">{student.gender}</td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {student.studentId}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {student.firstName}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {student.middleName}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {student.lastName}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {student.email}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {student.phoneNumber}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {student.department}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {student.gender}
+                  </td>
                   <td className="border border-gray-300 px-4 py-2">
                     {student.certificate ? (
                       <a
-                      href={`http://localhost:5000/${student.certificate.replace(/\\/g, '/')}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-500 underline"
-                    >
-                      View Certificate
-                    </a>
-                    
+                        href={`http://localhost:5000/${student.certificate.replace(
+                          /\\/g,
+                          "/"
+                        )}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-500 underline"
+                      >
+                        View Certificate
+                      </a>
                     ) : (
                       "No Certificate"
                     )}

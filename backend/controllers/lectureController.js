@@ -149,3 +149,20 @@ exports.deleteLecture = async (req, res) => {
     }
   }
 };
+
+//for teacher
+exports.getAllocatedLecturesForTeacher = async (req, res) => {
+  try {
+    const { teacherId } = req.params;
+    const lectures = await Lecture.find({ teacherId });
+
+    if (!lectures || lectures.length === 0) {
+      return res.status(404).json({ message: "No allocated courses found." });
+    }
+
+    res.status(200).json(lectures);
+  } catch (error) {
+    console.error("Error fetching allocated courses:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};

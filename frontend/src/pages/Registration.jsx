@@ -1,12 +1,7 @@
-"use client"
+"use client";
 
-import { useState, useRef } from "react"
+import { useState, useRef } from "react";
 
-
-<<<<<<< HEAD
-import {Container,Typography,TextField,Button,Box, Paper,Avatar,InputAdornment,IconButton,FormControl,InputLabel,Select,MenuItem,Checkbox,FormControlLabel,
-  Input,Grid,
-=======
 import {
   Container,
   Typography,
@@ -25,10 +20,9 @@ import {
   FormControlLabel,
   Input,
   Grid,
->>>>>>> 5300dcd507ec22af243924c44429b5c1b384c539
-} from "@mui/material"
-import { styled } from "@mui/material/styles"
-import { Link as RouterLink, useNavigate } from "react-router-dom"
+} from "@mui/material";
+import { styled } from "@mui/material/styles";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import {
   LockOutlined,
   Email,
@@ -40,8 +34,8 @@ import {
   Wc,
   CloudUpload,
   School,
-} from "@mui/icons-material"
-import { motion, AnimatePresence } from "framer-motion"
+} from "@mui/icons-material";
+import { motion, AnimatePresence } from "framer-motion";
 
 const BackgroundBox = styled(Box)(({ theme }) => ({
   minHeight: "100vh",
@@ -53,7 +47,7 @@ const BackgroundBox = styled(Box)(({ theme }) => ({
   backgroundPosition: "center",
   backgroundAttachment: "fixed",
   padding: theme.spacing(2),
-}))
+}));
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(4),
@@ -68,39 +62,39 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
   overflow: "hidden",
   width: "100%",
   maxWidth: "500px",
-}))
+}));
 
 const StyledAvatar = styled(Avatar)(({ theme }) => ({
   margin: theme.spacing(1),
   backgroundColor: theme.palette.secondary.main,
   width: theme.spacing(7),
   height: theme.spacing(7),
-}))
+}));
 
 const Form = styled("form")(({ theme }) => ({
   width: "100%",
   marginTop: theme.spacing(3),
-}))
+}));
 
 const SubmitButton = styled(Button)(({ theme }) => ({
   margin: theme.spacing(3, 0, 2),
   padding: theme.spacing(1.5, 0),
   fontSize: "1.1rem",
-}))
+}));
 
 const HomeButton = styled(Button)(({ theme }) => ({
   position: "absolute",
   top: theme.spacing(2),
   right: theme.spacing(2),
-}))
+}));
 
 const Auth = () => {
-  const [showPassword, setShowPassword] = useState(false)
-  const navigate = useNavigate()
-  const fileInputRef = useRef()
-  const showlogin=()=>{
-    navigate('/login')
-  }
+  const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
+  const fileInputRef = useRef();
+  const showlogin = () => {
+    navigate("/login");
+  };
 
   const [formData, setFormData] = useState({
     studentId: "",
@@ -116,96 +110,71 @@ const Auth = () => {
     agreement: false,
     certificate: null,
   });
-  
-  const [errors,setErrors]=useState("")
-<<<<<<< HEAD
-  const [verification,setVerification]=useState("")
-=======
->>>>>>> 5300dcd507ec22af243924c44429b5c1b384c539
-const handleSignupSubmit=  async(e)=>{
-  e.preventDefault();
+
+  const [errors, setErrors] = useState("");
+  const [verification, setVerification] = useState("");
+  const handleSignupSubmit = async (e) => {
+    e.preventDefault();
 
     const formDataObj = new FormData();
-    formDataObj.append('firstName', formData.firstName);
-    formDataObj.append('middleName', formData.middleName);
-    formDataObj.append('lastName', formData.lastName);
-    formDataObj.append('email', formData.email);
-    formDataObj.append('password', formData.password);
-    formDataObj.append('department', formData.department);
-    formDataObj.append('role', formData.role);
-    formDataObj.append('gender', formData.gender);
-    formDataObj.append('phoneNumber', formData.phoneNumber);
-    formDataObj.append('agreement', formData.agreement);
+    formDataObj.append("firstName", formData.firstName);
+    formDataObj.append("middleName", formData.middleName);
+    formDataObj.append("lastName", formData.lastName);
+    formDataObj.append("email", formData.email);
+    formDataObj.append("password", formData.password);
+    formDataObj.append("department", formData.department);
+    formDataObj.append("role", formData.role);
+    formDataObj.append("gender", formData.gender);
+    formDataObj.append("phoneNumber", formData.phoneNumber);
+    formDataObj.append("agreement", formData.agreement);
 
     // Handle the certificate field (file input)
     if (formData.certificate) {
-      formDataObj.append('certificate', formData.certificate);
+      formDataObj.append("certificate", formData.certificate);
     }
 
     try {
-      const response = await fetch('http://localhost:5000/api/students/register', {
-        method: 'POST',
-        body: formDataObj,
-      });
+      const response = await fetch(
+        "http://localhost:5000/api/students/register",
+        {
+          method: "POST",
+          body: formDataObj,
+        }
+      );
 
       const data = await response.json();
 
       if (response.status === 201) {
-<<<<<<< HEAD
-        if (data.role === 'student') {
+        if (data.role === "student") {
           // Store the studentId in localStorage only for students
-          localStorage.setItem('studentId', data.studentId);
-          
+          localStorage.setItem("studentId", data.studentId);
         }
-  
-        setVerification('Registration successful! Use this username to login: ' + data.studentId)
+
+        setVerification(
+          "Registration successful! Use this username to login: " +
+            data.studentId
+        );
         setTimeout(() => {
-          setVerification('');
-          navigate('/login');
+          setVerification("");
+          navigate("/login");
         }, 1000);
       } else if (response.status === 400) {
-      
-        
-        setVerification(data.message)
-
+        setVerification(data.message);
       } else {
-        setVerification('Registration failed:  ' + data.message)
+        setVerification("Registration failed:  " + data.message);
       }
     } catch (error) {
-      console.error('Error during registration:', error);
-    
-      setVerification('An error occurred during registration.')
-      
-    }
-}
+      console.error("Error during registration:", error);
 
-=======
-        alert('Registration successful! Use this username to login: ' + data.studentId);
-        // Redirect user based on role
-        navigate('/login');
-      } else if (response.status === 400) {
-        alert(data.message); // Handle duplicate user or other validation errors
-      } else {
-        alert('Registration failed: ' + data.message);
-      }
-    } catch (error) {
-      console.error('Error during registration:', error);
-      alert('An error occurred during registration.');
+      setVerification("An error occurred during registration.");
     }
-}
-  // Function to handle form submission
-  const handleSubmit = async (e) => {
-      handleSignupSubmit(e)
-    
   };
 
-  // Function to handle input changes
->>>>>>> 5300dcd507ec22af243924c44429b5c1b384c539
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: type === "checkbox" ? checked : value,
     }));
   };
 
@@ -220,38 +189,31 @@ const handleSignupSubmit=  async(e)=>{
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
   };
-  
+
   const handleFileButtonClick = () => {
     fileInputRef.current.click();
   };
-  
+
   return (
     <>
-<<<<<<< HEAD
-   
-=======
->>>>>>> 5300dcd507ec22af243924c44429b5c1b384c539
-    <BackgroundBox>
-      <Container component="main" maxWidth="xs">
-        <StyledPaper elevation={6}>
-          <HomeButton component={RouterLink} to="/" variant="outlined" startIcon={<Home />}>
-            Back to Home
-          </HomeButton>
-          <StyledAvatar>
-            <LockOutlined />
-          </StyledAvatar>
-
-          <AnimatePresence mode="wait">
-            <motion.div
-    
+      <BackgroundBox>
+        <Container component="main" maxWidth="xs">
+          <StyledPaper elevation={6}>
+            <HomeButton
+              component={RouterLink}
+              to="/"
+              variant="outlined"
+              startIcon={<Home />}
             >
-<<<<<<< HEAD
-              <Form onSubmit={handleSignupSubmit}>
-              
-=======
-              <Form onSubmit={handleSubmit}>
-            
->>>>>>> 5300dcd507ec22af243924c44429b5c1b384c539
+              Back to Home
+            </HomeButton>
+            <StyledAvatar>
+              <LockOutlined />
+            </StyledAvatar>
+
+            <AnimatePresence mode="wait">
+              <motion.div>
+                <Form onSubmit={handleSignupSubmit}>
                   <Grid container spacing={2}>
                     <Grid item xs={12} sm={6}>
                       <TextField
@@ -325,12 +287,24 @@ const handleSignupSubmit=  async(e)=>{
                             </InputAdornment>
                           }
                         >
-                          <MenuItem value="computer engineering">computer engineering</MenuItem>
-                          <MenuItem value="electrical engineering">electrical engineering</MenuItem>
-                          <MenuItem value="electrical engineering">Software engineering</MenuItem>
-                          <MenuItem value="electrical engineering">information system</MenuItem>
-                          <MenuItem value="electrical engineering">cyber security</MenuItem>
-                          <MenuItem value="electrical engineering">information technology</MenuItem>
+                          <MenuItem value="computer engineering">
+                            computer engineering
+                          </MenuItem>
+                          <MenuItem value="electrical engineering">
+                            electrical engineering
+                          </MenuItem>
+                          <MenuItem value="electrical engineering">
+                            Software engineering
+                          </MenuItem>
+                          <MenuItem value="electrical engineering">
+                            information system
+                          </MenuItem>
+                          <MenuItem value="electrical engineering">
+                            cyber security
+                          </MenuItem>
+                          <MenuItem value="electrical engineering">
+                            information technology
+                          </MenuItem>
                         </Select>
                         {errors.gender && (
                           <Typography color="error" variant="caption">
@@ -364,14 +338,11 @@ const handleSignupSubmit=  async(e)=>{
                         )}
                       </FormControl>
                     </Grid>
-              
+
                     <Grid item xs={12} sm={6}>
                       <TextField
                         fullWidth
-<<<<<<< HEAD
                         required
-=======
->>>>>>> 5300dcd507ec22af243924c44429b5c1b384c539
                         name="phoneNumber"
                         label="Phone Number"
                         value={formData.phoneNumber}
@@ -438,83 +409,88 @@ const handleSignupSubmit=  async(e)=>{
                       </Box>
                     </Grid>
                   </Grid>
-        
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type={showPassword ? "text" : "password"}
-                  id="password"
 
-                  value={formData.password}
-                  onChange={handleChange}
-                  error={!!errors.password}
-                  helperText={errors.password}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <LockOutlined />
-                      </InputAdornment>
-                    ),
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          onClick={togglePasswordVisibility}
-                          edge="end"
-                        >
-                          {showPassword ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-             
+                  <TextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    name="password"
+                    label="Password"
+                    type={showPassword ? "text" : "password"}
+                    id="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    error={!!errors.password}
+                    helperText={errors.password}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <LockOutlined />
+                        </InputAdornment>
+                      ),
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={togglePasswordVisibility}
+                            edge="end"
+                          >
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+
                   <FormControlLabel
                     control={
-                      <Checkbox checked={formData.agreement} onChange={handleChange} name="agreement" color="primary" />
+                      <Checkbox
+                        checked={formData.agreement}
+                        onChange={handleChange}
+                        name="agreement"
+                        color="primary"
+                      />
                     }
                     label="I agree to the terms and conditions"
                   />
-              
-                
+
                   <Typography color="error" variant="caption" display="block">
                     {errors.agreement}
                   </Typography>
-          
-                <SubmitButton type="submit" fullWidth variant="contained" color="primary">
-                  Sign Up
-                </SubmitButton>
-              </Form>
-              <SubmitButton type="submit" fullWidth variant="contained" color="primary" onClick={showlogin}>
+
+                  <SubmitButton
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                  >
+                    Sign Up
+                  </SubmitButton>
+                </Form>
+                <SubmitButton
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  onClick={showlogin}
+                >
                   login
                 </SubmitButton>
-            </motion.div>
-          </AnimatePresence>
-          <Box mt={2}>
-
-          </Box>
-        </StyledPaper>
-        
-      </Container>
-      
-    </BackgroundBox>
-<<<<<<< HEAD
-    <Box className="absolute top-1/4 left-1/2 transform -translate-x-1/2 p-4 w-4/5 sm:w-2/3 md:w-1/2 lg:w-1/3">
-  {/* Tailwind width for responsiveness */}
-  <div  className="w-full p-4 rounded-lg  fs-30 text-green-800 text-2xl">
-    {verification}
-  </div>
-</Box>
-
-=======
->>>>>>> 5300dcd507ec22af243924c44429b5c1b384c539
+              </motion.div>
+            </AnimatePresence>
+            <Box mt={2}></Box>
+          </StyledPaper>
+        </Container>
+      </BackgroundBox>
+      <Box className="absolute top-1/4 left-1/2 transform -translate-x-1/2 p-4 w-4/5 sm:w-2/3 md:w-1/2 lg:w-1/3">
+        {/* Tailwind width for responsiveness */}
+        <div className="w-full p-4 rounded-lg  fs-30 text-green-800 text-2xl">
+          {verification}
+        </div>
+      </Box>
     </>
   );
-  
-  }
+};
 
-export default Auth
+export default Auth;

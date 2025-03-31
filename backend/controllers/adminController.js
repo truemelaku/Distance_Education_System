@@ -34,3 +34,20 @@ exports.registerAdmin = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
+
+exports.adminProfile=async (req, res) => {
+    try {
+      const admin = await Admin.findById(req.user.id); // Find the user in your database
+      if (!admin) return res.status(404).json({ message: 'Admin not found' });
+  
+      res.json({
+        adminId: admin.adminId,
+        email: admin.email,
+        name: admin.name,
+       
+      });
+      
+    } catch (error) {
+      res.status(500).json({ message: 'Error fetching admin profile',err });
+    }
+  };

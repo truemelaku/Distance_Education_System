@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
+import { useState, useEffect } from "react";
 import {
   Box,
   Grid,
@@ -17,18 +17,24 @@ import {
   CircularProgress,
   Alert,
   Skeleton,
-} from "@mui/material"
-import { Assignment, Notifications, CalendarToday, Timeline, Book } from "@mui/icons-material"
+} from "@mui/material";
+import {
+  Assignment,
+  Notifications,
+  CalendarToday,
+  Timeline,
+  Book,
+} from "@mui/icons-material";
 
 const StudentHome = () => {
-  const [dashboardData, setDashboardData] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+  const [dashboardData, setDashboardData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        setLoading(true)
+        setLoading(true);
         // In a real app, you would use the actual API call
         // const response = await studentApi.getDashboardStats();
         // setDashboardData(response.data);
@@ -43,14 +49,37 @@ const StudentHome = () => {
             completedCredits: 75,
             totalCredits: 120,
             upcomingAssignments: [
-              { id: 1, title: "Database Design Project", course: "Database Systems", dueDate: "2023-11-15" },
-              { id: 2, title: "Algorithm Analysis", course: "Data Structures", dueDate: "2023-11-18" },
-              { id: 3, title: "UI/UX Case Study", course: "Human-Computer Interaction", dueDate: "2023-11-22" },
+              {
+                id: 1,
+                title: "Database Design Project",
+                course: "Database Systems",
+                dueDate: "2023-11-15",
+              },
+              {
+                id: 2,
+                title: "Algorithm Analysis",
+                course: "Data Structures",
+                dueDate: "2023-11-18",
+              },
+              {
+                id: 3,
+                title: "UI/UX Case Study",
+                course: "Human-Computer Interaction",
+                dueDate: "2023-11-22",
+              },
             ],
             recentAnnouncements: [
-              { id: 1, title: "Campus Closed for Thanksgiving", date: "2023-11-10" },
+              {
+                id: 1,
+                title: "Campus Closed for Thanksgiving",
+                date: "2023-11-10",
+              },
               { id: 2, title: "Spring Registration Opens", date: "2023-11-08" },
-              { id: 3, title: "New Library Resources Available", date: "2023-11-05" },
+              {
+                id: 3,
+                title: "New Library Resources Available",
+                date: "2023-11-05",
+              },
             ],
             upcomingEvents: [
               { id: 1, title: "Midterm Exams", date: "2023-11-20" },
@@ -58,23 +87,43 @@ const StudentHome = () => {
               { id: 3, title: "Workshop: Resume Building", date: "2023-11-30" },
             ],
             enrolledCourses: [
-              { id: 1, code: "CS301", title: "Database Systems", instructor: "Dr. Smith" },
-              { id: 2, code: "CS302", title: "Data Structures", instructor: "Prof. Johnson" },
-              { id: 3, code: "CS303", title: "Human-Computer Interaction", instructor: "Dr. Williams" },
-              { id: 4, code: "CS304", title: "Software Engineering", instructor: "Prof. Brown" },
+              {
+                id: 1,
+                code: "CS301",
+                title: "Database Systems",
+                instructor: "Dr. Smith",
+              },
+              {
+                id: 2,
+                code: "CS302",
+                title: "Data Structures",
+                instructor: "Prof. Johnson",
+              },
+              {
+                id: 3,
+                code: "CS303",
+                title: "Human-Computer Interaction",
+                instructor: "Dr. Williams",
+              },
+              {
+                id: 4,
+                code: "CS304",
+                title: "Software Engineering",
+                instructor: "Prof. Brown",
+              },
             ],
-          })
-          setLoading(false)
-        }, 1000)
+          });
+          setLoading(false);
+        }, 1000);
       } catch (err) {
-        console.error("Error fetching dashboard data:", err)
-        setError("Failed to load dashboard data. Please try again later.")
-        setLoading(false)
+        console.error("Error fetching dashboard data:", err);
+        setError("Failed to load dashboard data. Please try again later.");
+        setLoading(false);
       }
-    }
+    };
 
-    fetchDashboardData()
-  }, [])
+    fetchDashboardData();
+  }, []);
 
   if (loading) {
     return (
@@ -83,7 +132,12 @@ const StudentHome = () => {
           {[1, 2, 3, 4, 5, 6].map((item) => (
             <Grid item xs={12} md={6} lg={4} key={item}>
               <Paper sx={{ p: 2 }}>
-                <Skeleton variant="rectangular" height={30} width="60%" sx={{ mb: 2 }} />
+                <Skeleton
+                  variant="rectangular"
+                  height={30}
+                  width="60%"
+                  sx={{ mb: 2 }}
+                />
                 <Skeleton variant="rectangular" height={100} />
                 <Box sx={{ mt: 2 }}>
                   <Skeleton variant="text" />
@@ -95,18 +149,22 @@ const StudentHome = () => {
           ))}
         </Grid>
       </Box>
-    )
+    );
   }
 
   if (error) {
     return (
       <Box sx={{ p: 3 }}>
         <Alert severity="error">{error}</Alert>
-        <Button variant="contained" sx={{ mt: 2 }} onClick={() => window.location.reload()}>
+        <Button
+          variant="contained"
+          sx={{ mt: 2 }}
+          onClick={() => window.location.reload()}
+        >
           Retry
         </Button>
       </Box>
-    )
+    );
   }
 
   return (
@@ -115,7 +173,13 @@ const StudentHome = () => {
         <Grid container spacing={3}>
           {/* Welcome Card */}
           <Grid item xs={12}>
-            <Paper sx={{ p: 3, bgcolor: "primary.light", color: "primary.contrastText" }}>
+            <Paper
+              sx={{
+                p: 3,
+                bgcolor: "primary.light",
+                color: "primary.contrastText",
+              }}
+            >
               <Typography variant="h4" gutterBottom>
                 Welcome back, {dashboardData.name}!
               </Typography>
@@ -128,13 +192,22 @@ const StudentHome = () => {
           {/* Academic Progress */}
           <Grid item xs={12} md={6} lg={4}>
             <Card>
-              <CardHeader title="Academic Progress" avatar={<Timeline color="primary" />} />
+              <CardHeader
+                title="Academic Progress"
+                avatar={<Timeline color="primary" />}
+              />
               <CardContent>
                 <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-                  <Box sx={{ position: "relative", display: "inline-flex", mr: 2 }}>
+                  <Box
+                    sx={{ position: "relative", display: "inline-flex", mr: 2 }}
+                  >
                     <CircularProgress
                       variant="determinate"
-                      value={(dashboardData.completedCredits / dashboardData.totalCredits) * 100}
+                      value={
+                        (dashboardData.completedCredits /
+                          dashboardData.totalCredits) *
+                        100
+                      }
                       size={80}
                       thickness={4}
                     />
@@ -150,8 +223,17 @@ const StudentHome = () => {
                         justifyContent: "center",
                       }}
                     >
-                      <Typography variant="caption" component="div" color="text.secondary">
-                        {Math.round((dashboardData.completedCredits / dashboardData.totalCredits) * 100)}%
+                      <Typography
+                        variant="caption"
+                        component="div"
+                        color="text.secondary"
+                      >
+                        {Math.round(
+                          (dashboardData.completedCredits /
+                            dashboardData.totalCredits) *
+                            100
+                        )}
+                        %
                       </Typography>
                     </Box>
                   </Box>
@@ -160,7 +242,8 @@ const StudentHome = () => {
                       Credits Completed
                     </Typography>
                     <Typography variant="h6">
-                      {dashboardData.completedCredits}/{dashboardData.totalCredits}
+                      {dashboardData.completedCredits}/
+                      {dashboardData.totalCredits}
                     </Typography>
                   </Box>
                 </Box>
@@ -168,7 +251,9 @@ const StudentHome = () => {
                 <Typography variant="body2" color="text.secondary">
                   Current GPA
                 </Typography>
-                <Typography variant="h6">{dashboardData.gpa.toFixed(2)}/4.00</Typography>
+                <Typography variant="h6">
+                  {dashboardData.gpa.toFixed(2)}/4.00
+                </Typography>
               </CardContent>
             </Card>
           </Grid>
@@ -176,7 +261,10 @@ const StudentHome = () => {
           {/* Upcoming Assignments */}
           <Grid item xs={12} md={6} lg={4}>
             <Card>
-              <CardHeader title="Upcoming Assignments" avatar={<Assignment color="primary" />} />
+              <CardHeader
+                title="Upcoming Assignments"
+                avatar={<Assignment color="primary" />}
+              />
               <CardContent>
                 <List dense>
                   {dashboardData.upcomingAssignments.map((assignment) => (
@@ -185,10 +273,16 @@ const StudentHome = () => {
                         primary={assignment.title}
                         secondary={
                           <>
-                            <Typography component="span" variant="body2" color="text.primary">
+                            <Typography
+                              component="span"
+                              variant="body2"
+                              color="text.primary"
+                            >
                               {assignment.course}
                             </Typography>
-                            {` — Due: ${new Date(assignment.dueDate).toLocaleDateString()}`}
+                            {` — Due: ${new Date(
+                              assignment.dueDate
+                            ).toLocaleDateString()}`}
                           </>
                         }
                       />
@@ -200,7 +294,10 @@ const StudentHome = () => {
                   size="small"
                   fullWidth
                   sx={{ mt: 1 }}
-                  onClick={() => (window.location.href = "/student-dashboard/assignment-results")}
+                  onClick={() =>
+                    (window.location.href =
+                      "/student-dashboard/assignment-results")
+                  }
                 >
                   View All Assignments
                 </Button>
@@ -211,14 +308,23 @@ const StudentHome = () => {
           {/* Announcements */}
           <Grid item xs={12} md={6} lg={4}>
             <Card>
-              <CardHeader title="Recent Announcements" avatar={<Notifications color="primary" />} />
+              <CardHeader
+                title="Recent Announcements"
+                avatar={<Notifications color="primary" />}
+              />
               <CardContent>
                 <List dense>
                   {dashboardData.recentAnnouncements.map((announcement) => (
-                    <ListItem key={announcement.id} disablePadding sx={{ mb: 1 }}>
+                    <ListItem
+                      key={announcement.id}
+                      disablePadding
+                      sx={{ mb: 1 }}
+                    >
                       <ListItemText
                         primary={announcement.title}
-                        secondary={`Posted: ${new Date(announcement.date).toLocaleDateString()}`}
+                        secondary={`Posted: ${new Date(
+                          announcement.date
+                        ).toLocaleDateString()}`}
                       />
                     </ListItem>
                   ))}
@@ -228,7 +334,9 @@ const StudentHome = () => {
                   size="small"
                   fullWidth
                   sx={{ mt: 1 }}
-                  onClick={() => (window.location.href = "/student-dashboard/notifications")}
+                  onClick={() =>
+                    (window.location.href = "/student-dashboard/notifications")
+                  }
                 >
                   View All Announcements
                 </Button>
@@ -239,19 +347,29 @@ const StudentHome = () => {
           {/* Upcoming Events */}
           <Grid item xs={12} md={6} lg={4}>
             <Card>
-              <CardHeader title="Upcoming Events" avatar={<CalendarToday color="primary" />} />
+              <CardHeader
+                title="Upcoming Events"
+                avatar={<CalendarToday color="primary" />}
+              />
               <CardContent>
                 <List dense>
                   {dashboardData.upcomingEvents.map((event) => (
                     <ListItem key={event.id} disablePadding sx={{ mb: 1 }}>
                       <ListItemText
                         primary={event.title}
-                        secondary={`Date: ${new Date(event.date).toLocaleDateString()}`}
+                        secondary={`Date: ${new Date(
+                          event.date
+                        ).toLocaleDateString()}`}
                       />
                     </ListItem>
                   ))}
                 </List>
-                <Button variant="outlined" size="small" fullWidth sx={{ mt: 1 }}>
+                <Button
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  sx={{ mt: 1 }}
+                >
                   View Calendar
                 </Button>
               </CardContent>
@@ -261,7 +379,10 @@ const StudentHome = () => {
           {/* Enrolled Courses */}
           <Grid item xs={12} md={6} lg={8}>
             <Card>
-              <CardHeader title="My Courses" avatar={<Book color="primary" />} />
+              <CardHeader
+                title="My Courses"
+                avatar={<Book color="primary" />}
+              />
               <CardContent>
                 <Grid container spacing={2}>
                   {dashboardData.enrolledCourses.map((course) => (
@@ -290,7 +411,9 @@ const StudentHome = () => {
                   size="small"
                   fullWidth
                   sx={{ mt: 2 }}
-                  onClick={() => (window.location.href = "/student-dashboard/my-courses")}
+                  onClick={() =>
+                    (window.location.href = "/student-dashboard/my-courses")
+                  }
                 >
                   View All Courses
                 </Button>
@@ -300,8 +423,7 @@ const StudentHome = () => {
         </Grid>
       )}
     </Box>
-  )
-}
+  );
+};
 
-export default StudentHome
-
+export default StudentHome;
