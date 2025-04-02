@@ -16,7 +16,7 @@ import "slick-carousel/slick/slick-theme.css";
 import Navbar from "../components/Navbar";
 import Footer from "./Footer";
 import { Group, MenuBook, Person, Star } from "@mui/icons-material";
-import Teacher from "./teacher/TeacherCourses";
+
 const Home = () => {
   const courses = [
     {
@@ -316,7 +316,6 @@ const Home = () => {
       </Box>
 
       <Footer />
-      <Teacher />
     </Box>
   );
 };

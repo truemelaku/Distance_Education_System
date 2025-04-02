@@ -20,7 +20,6 @@ import {
   MenuItem,
   Avatar,
   CircularProgress,
-  Backdrop,
 } from "@mui/material"
 import MenuIcon from "@mui/icons-material/Menu"
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft"
@@ -39,24 +38,7 @@ import {
   Settings,
   ExitToApp,
 } from "@mui/icons-material"
-import { Routes, Route, useNavigate, useLocation } from "react-router-dom"
-
-// Import teacher components from ./teacher/
-//import TeacherLayout from "./components/layout/TeacherLayout"
-import TeacherHome from "./teacher/TeacherHome"
-import TeacherProfile from "./teacher/TeacherProfile"
-import MyCourses from "./teacher/MyCourses"
-import AllPrograms from "./teacher/AllPrograms"
-import ManageScores from "./teacher/ManageScores"
-import UploadContent from "./teacher/UploadContent"
-import AssignmentManagement from "./teacher/AssignmentManagement"
-import CourseManagement from "./teacher/MyCourses" // or separate TeacherCourseManagement
-import StudentManagement from "./teacher/StudentManagement"
-import TeacherSchedule from "./teacher/TeacherSchedule"
-import TeacherMessages from "./teacher/TeacherMessages"
-import TeacherNotifications from "./teacher/TeacherNotifications"
-import TeacherSettings from "./teacher/TeacherSettings"
-import ChatComponent from "./teacher/ChatComponent"
+import { useNavigate, useLocation } from "react-router-dom"
 
 const drawerWidth = 240
 
@@ -118,7 +100,7 @@ const menuItems = [
   { text: "Settings", icon: <Settings />, path: "/teacher/settings" },
 ]
 
-export default function TeacherDashboard() {
+const TeacherLayout = ({ children }) => {
   const theme = useTheme()
   const [open, setOpen] = useState(true)
   const navigate = useNavigate()
@@ -127,7 +109,6 @@ export default function TeacherDashboard() {
   const menuOpen = Boolean(anchorEl)
   const [teacherInfo, setTeacherInfo] = useState(null)
   const [loading, setLoading] = useState(true)
-  const [loggingOut, setLoggingOut] = useState(false)
 
   useEffect(() => {
     const fetchTeacherInfo = async () => {
@@ -148,11 +129,6 @@ export default function TeacherDashboard() {
       } catch (error) {
         console.error("Error fetching teacher info:", error)
         setLoading(false)
-        if (error.response && error.response.status === 401) {
-          localStorage.removeItem("token")
-          localStorage.removeItem("userRole")
-          navigate("/auth")
-        }
       }
     }
     fetchTeacherInfo()
@@ -163,22 +139,10 @@ export default function TeacherDashboard() {
   const handleMenu = (event) => setAnchorEl(event.currentTarget)
   const handleClose = () => setAnchorEl(null)
 
-  const handleLogout = async () => {
-    try {
-      setLoggingOut(true)
-      setTimeout(() => {
-        localStorage.removeItem("token")
-        localStorage.removeItem("userRole")
-        setLoggingOut(false)
-        navigate("/auth")
-      }, 1000)
-    } catch (error) {
-      console.error("Error logging out:", error)
-      setLoggingOut(false)
-      localStorage.removeItem("token")
-      localStorage.removeItem("userRole")
-      navigate("/auth")
-    }
+  const handleLogout = () => {
+    localStorage.removeItem("token")
+    localStorage.removeItem("userRole")
+    navigate("/auth")
     handleClose()
   }
 
@@ -333,31 +297,10 @@ export default function TeacherDashboard() {
       </Drawer>
       <Main open={open}>
         <DrawerHeader />
-        <Routes>
-          <Route path="" element={<TeacherHome />} />
-          <Route path="profile" element={<TeacherProfile />} />
-          <Route path="courses" element={<MyCourses />} />
-          <Route path="programs" element={<AllPrograms />} />
-          <Route path="programs/:programId" element={<AllPrograms />} />
-          <Route path="assignments" element={<AssignmentManagement />} />
-          <Route path="scores" element={<ManageScores />} />
-          <Route path="upload" element={<UploadContent />} />
-          <Route path="course-management" element={<CourseManagement />} />
-          <Route path="courses/:courseId" element={<CourseManagement />} />
-          <Route path="student-management" element={<StudentManagement />} />
-          <Route path="schedule" element={<TeacherSchedule />} />
-          <Route path="messages" element={<TeacherMessages />} />
-          <Route path="notifications" element={<TeacherNotifications />} />
-          <Route path="settings" element={<TeacherSettings />} />
-        </Routes>
-        <ChatComponent />
+        {children} {/* Render the page content */}
       </Main>
-      <Backdrop sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }} open={loggingOut}>
-        <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-          <CircularProgress color="inherit" />
-          <Typography sx={{ mt: 2 }}>Logging out...</Typography>
-        </Box>
-      </Backdrop>
     </Box>
   )
 }
+
+export default TeacherLayout

@@ -1,24 +1,22 @@
-"use client"
-
-import { useState } from "react"
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
-import { AuthProvider } from "./contexts/AuthContext"
-import Sidebar from "./components/Sidebar"
-import Navbar from "./components/Navbar"
-import Home from "./pages/lecturer/Home"
-import Profile from "./pages/lecturer/Profile"
-import MyCourses from "./pages/lecturer/MyCourses"
-import AllPrograms from "./pages/lecturer/AllPrograms"
-import ProgramDetail from "./pages/lecturer/ProgramDetail"
-import CompleteExams from "./pages/lecturer/CompleteExams"
-import ManageScore from "./pages/lecturer/ManageScore"
-import AccountSetting from "./pages/lecturer/AccountSetting"
-import ChangePassword from "./pages/lecturer/ChangePassword"
-import ChatSystem from "./components/ChatSystem"
-import CourseDetail from "./pages/lecturer/CourseDetail"
+import { useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./contexts/AuthContext";
+import Sidebar from "./components/Sidebar";
+import Navbar from "./components/Navbar";
+import Home from "./pages/lecturer/Home";
+import Profile from "./pages/lecturer/Profile";
+import MyCourses from "./pages/lecturer/MyCourses";
+import AllPrograms from "./pages/lecturer/AllPrograms";
+import ProgramDetail from "./pages/lecturer/ProgramDetail";
+import CompleteExams from "./pages/lecturer/CompleteExams";
+import ManageScore from "./pages/lecturer/ManageScore";
+import AccountSetting from "./pages/lecturer/AccountSetting";
+import ChangePassword from "./pages/lecturer/ChangePassword";
+import ChatSystem from "./components/ChatSystem";
+import CourseDetail from "./pages/lecturer/CourseDetail";
 
 function App() {
-  const [chatOpen, setChatOpen] = useState(false)
+  const [chatOpen, setChatOpen] = useState(false);
 
   return (
     <AuthProvider>
@@ -33,7 +31,10 @@ function App() {
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/my-courses" element={<MyCourses />} />
                 <Route path="/all-programs" element={<AllPrograms />} />
-                <Route path="/program/:programCode" element={<ProgramDetail />} />
+                <Route
+                  path="/program/:programCode"
+                  element={<ProgramDetail />}
+                />
                 <Route path="/complete-exams" element={<CompleteExams />} />
                 <Route path="/manage-score" element={<ManageScore />} />
                 <Route path="/account-setting" element={<AccountSetting />} />
@@ -46,8 +47,7 @@ function App() {
         </div>
       </Router>
     </AuthProvider>
-  )
+  );
 }
 
-export default App
-
+export default App;
